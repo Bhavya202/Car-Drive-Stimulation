@@ -4,12 +4,20 @@ AFRAME.registerComponent("game", {
       },
     init: function () {
         var duration = 300;
+        var sound = document.querySelector("#sound");
         var timerEl = document.querySelector("#timer");
-        this.startTimer(duration, timerEl);
+        this.startTimer(duration, timerEl, sound);
     },
-    startTimer: function (duration, timerEl) {
+    startTimer: function (duration, timerEl, sound) {
         var minutes;
         var seconds;
+
+        window.addEventListener("keydown", (e) => {
+            if (e.key === "arrowUp") {
+                sound.setAttribute("sound", { autoplay: true });
+            }
+        });
+
         setInterval(() => {
             if (duration >= 0) {
                 this.data.gameState="play";
@@ -22,7 +30,6 @@ AFRAME.registerComponent("game", {
                 if (seconds < 10) {
                     seconds = "0" + seconds;
                 }
-
                 timerEl.setAttribute("text", {
                     value: minutes + ":" + seconds,
                 });
@@ -33,6 +40,7 @@ AFRAME.registerComponent("game", {
                 this.data.gameState="over";
                 var cameraRig = document.querySelector("#camera-rig");
                 cameraRig.setAttribute("velocity", { x: 0, y: 0, z: 0 });
+                cameraRig.setAttribute("movement-controls", { speed: 0 });
 
                 var over = document.querySelector("#over");
                 over.setAttribute("visible", true)
@@ -40,7 +48,6 @@ AFRAME.registerComponent("game", {
                 var carSpeed = document.querySelector("#speed")
                 carSpeed.setAttribute("text", { value: "0" });
             }
-
         }, 100)
     },
 })
