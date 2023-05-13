@@ -4,19 +4,12 @@ AFRAME.registerComponent("game", {
       },
     init: function () {
         var duration = 300;
-        var sound = document.querySelector("#sound");
         var timerEl = document.querySelector("#timer");
-        this.startTimer(duration, timerEl, sound);
+        this.startTimer(duration, timerEl);
     },
-    startTimer: function (duration, timerEl, sound) {
+    startTimer: function (duration, timerEl) {
         var minutes;
         var seconds;
-
-        window.addEventListener("keydown", (e) => {
-            if (e.key === "arrowUp") {
-                sound.setAttribute("sound", { autoplay: true });
-            }
-        });
 
         setInterval(() => {
             if (duration >= 0) {
